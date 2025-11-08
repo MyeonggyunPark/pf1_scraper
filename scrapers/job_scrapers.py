@@ -92,6 +92,7 @@ class BSJscraper(JobScraper):
             response.status_code
 
     def run(self, keyword):
+        self.infos_list = []
         url = self.get_url(keyword)
         self.get_infos(url)
 
@@ -150,6 +151,7 @@ class WWRscraper(JobScraper):
             self.infos_list.append(infos)
 
     def run(self, keyword):
+        self.infos_list = []
         url = self.get_url(keyword)
         self.get_infos(url)
 
@@ -176,7 +178,7 @@ class SSDscraper(JobScraper):
         parts = [part.strip() for part in text.split(",")]
         filtered = [p for p in parts if "Home" not in p]
         return ", ".join(filtered)
-    
+
     def get_infos(self, url):
 
         response = requests.get(url, headers=self.USER_HEADERS)
@@ -208,6 +210,7 @@ class SSDscraper(JobScraper):
             response.status_code
 
     def run(self, keyword):
+        self.infos_list = []
         url = self.get_url(keyword)
         self.get_infos(url)
 
