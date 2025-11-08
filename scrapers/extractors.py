@@ -1,7 +1,7 @@
 # Importing scraper classes from job_scrapers and aliasing them
-from job_scrapers import BSJscraper as BSJ
-from job_scrapers import WWRscraper as WWR
-from job_scrapers import SSDscraper as SSD
+from .job_scrapers import BSJscraper as BSJ
+from .job_scrapers import WWRscraper as WWR
+from .job_scrapers import SSDscraper as SSD
 
 
 # Function to extract jobs from BerlinStartupJobs
