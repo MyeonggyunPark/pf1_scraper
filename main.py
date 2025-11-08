@@ -1,6 +1,14 @@
-def main():
-    print("Hello from pf1-scraper!")
+from flask import Flask, render_template
+from scrapers.job_scrapers import BSJscraper, WWRscraper, SSDscraper
+
+
+app = Flask(__name__)
+
+
+@app.route("/")
+def home():
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
-    main()
+    app.run(debug=True)
