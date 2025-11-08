@@ -91,8 +91,7 @@ class BSJscraper(JobScraper):
         url = self.get_url(keyword)
         self.get_infos(url)
 
-        # return self.infos_list
-        self.infos_print(self.infos_list)
+        return self.infos_list
 
 
 # weworkremotely - Scraper class
@@ -148,8 +147,7 @@ class WWRscraper(JobScraper):
         url = self.get_url(keyword)
         self.get_infos(url)
 
-        # return self.infos_list
-        self.infos_print(self.infos_list)
+        return self.infos_list
 
 
 # stepstone.de - Scraper class
@@ -206,8 +204,7 @@ class SSDscraper(JobScraper):
         url = self.get_url(keyword)
         self.get_infos(url)
 
-        # return self.infos_list
-        self.infos_print(self.infos_list)
+        return self.infos_list
 
 
 if __name__ == "__main__":
