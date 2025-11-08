@@ -1,12 +1,15 @@
-import requests
-import time
+# --- Standard library imports ---
+import time                                             # For adding delays between page loads
+from abc import ABC, abstractmethod                     # For creating abstract base classes
 
-from abc import ABC, abstractmethod
-from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+# --- Third-party library imports ---
+import requests                                         # For sending HTTP requests to websites
+from bs4 import BeautifulSoup                           # For parsing and extracting data from HTML
+from selenium import webdriver                          # For automating browser interactions
+from selenium.webdriver.chrome.options import Options   # For configuring Chrome browser settings
 
 
+# Base configuration shared by all scraper subclasses
 class JobScraper(ABC):
 
     def __init__(self):
@@ -18,23 +21,24 @@ class JobScraper(ABC):
 
     @abstractmethod
     def get_url(self, keyword):
-        """keyword에 따라 URL 생성"""
+        """Generate URL based on the given keyword"""
         pass
 
     def extract_text(self, tag):
-        """단일 태그 또는 리스트에서 텍스트 추출"""
+        """Extract text from a single tag or return 'No Information' if missing"""
         return tag.get_text(strip=True) if tag else "No Information"
 
     def extract_link(self, tag):
+        """Extract href attribute from an anchor tag"""
         return tag.get("href", "No Link") if tag else "No Link"
 
     @abstractmethod
     def get_infos(self, url):
-        """각 URL에서 공고 정보 추출"""
+        """Extract job information from each job listing"""
         pass
 
     def infos_print(self, infos):
-        """정보 출력 함수"""
+        """Print collected job information in a clean format"""
         print("\n======= [📑 INFO] ======")
         for info in infos:
             print()
@@ -46,10 +50,10 @@ class JobScraper(ABC):
 
     @abstractmethod
     def run(self):
-        """전체 실행 함수"""
+        """Run the entire scraping process"""
 
 
-# berlinstartupjobs - Scraper class
+# Scraper for berlinstartupjobs.com
 class BSJscraper(JobScraper):
 
     def __init__(self, base_url):
@@ -94,7 +98,7 @@ class BSJscraper(JobScraper):
         return self.infos_list
 
 
-# weworkremotely - Scraper class
+# Scraper for weworkremotely.com
 class WWRscraper(JobScraper):
 
     def __init__(self, base_url):
@@ -105,9 +109,9 @@ class WWRscraper(JobScraper):
     def get_url(self, keyword):
         return f"{self.BASE_URL}{keyword}"
 
+    # Use Selenium to render JS-based content
     def get_infos(self, url):
 
-        # Headless Chrome 설정
         options = Options()
         options.add_argument("--headless")
         options.add_argument("--disable-gpu")
@@ -121,9 +125,11 @@ class WWRscraper(JobScraper):
         driver = webdriver.Chrome(options=options)
         try:
             driver.get(url)
+            # Wait for page to fully render
             time.sleep(3)
             soup = BeautifulSoup(driver.page_source, "html.parser")
         finally:
+            # Ensure browser closes even on failure
             driver.quit()
 
         jobs_list = soup.find_all("li", class_="new-listing-container")
@@ -150,7 +156,7 @@ class WWRscraper(JobScraper):
         return self.infos_list
 
 
-# stepstone.de - Scraper class
+# Scraper for stepstone.de
 class SSDscraper(JobScraper):
     def __init__(self, base_url):
         super().__init__()
@@ -158,18 +164,19 @@ class SSDscraper(JobScraper):
         self.LINK_URL = "https://www.stepstone.de"
         self.COMPANY_LOCATION = "Germany"
 
+    # Split base URL at '?' to insert keyword dynamically
     def get_url(self, keyword):
         split_index = self.BASE_URL.index("?")
         prefix = self.BASE_URL[:split_index]
         query = self.BASE_URL[split_index:]
         return f"{prefix}{keyword}{query}"
 
+    # Remove 'Home' or remote-related terms from location text
     def location_filter(self, text):
         parts = [part.strip() for part in text.split(",")]
         filtered = [p for p in parts if "Home" not in p]
         return ", ".join(filtered)
-            
-            
+    
     def get_infos(self, url):
 
         response = requests.get(url, headers=self.USER_HEADERS)
