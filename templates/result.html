@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="text-cstivory">
+
+  <h3 class="text-2xl mb-7">
+    Search results for "{{ keyword }}" on 
+    {% if site == "bsj" %}
+      <span>berlinstartupjobs.com</span>
+    {% elif site == "wwr" %}
+      <span>weworkremotely.com</span>
+    {% else %}
+      <span>stepstone.de</span>
+    {% endif %}
+  </h3>
+
+    <!-- 결과 테이블 -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full table-auto border-collapse border border-gray-600">
+      <thead class="bg-cstdarkGray text-lg">
+        <tr>
+          <th class="border border-gray-600 px-4 py-2 text-left">Position</th>
+          <th class="border border-gray-600 px-4 py-2 text-left">Company</th>
+          <th class="border border-gray-600 px-4 py-2 text-left">Location</th>
+          <th class="border border-gray-600 px-4 py-2 text-left">Link</th>
+        </tr>
+      </thead>
+      <tbody class="text-md divide-y divide-gray-700">
+        {% for job in jobs %}
+        <tr class="hover:bg-gray-800 transition-colors">
+          <td class="px-3 py-2">{{ job.job_title }}</td>
+          <td class="px-3 py-2">{{ job.company_name }}</td>
+          <td class="px-3 py-2">{{ job.company_location }}</td>
+          <td class="px-3 py-2 text-center text-cstBlue hover:text-cstYellow">
+            <a href="{{ job.job_link }}" target="_blank" class="font-semibold">
+              View
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</section>
+
+{% endblock %}
