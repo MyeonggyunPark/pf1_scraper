@@ -4,7 +4,7 @@
     "tailwindcss": "^4.1.17"
   },
   "scripts": {
-    "dev": "tailwindcss -i ./src/input.css -o ./static/output.css --config ./tailwind.config.js --watch",
-    "build": "tailwindcss -i ./src/input.css -o ./static/output.css --config ./tailwind.config.js"
+    "dev": "tailwindcss -i ./static/css/input.css -o ./static/output.css --config ./tailwind.config.js --watch",
+    "build": "tailwindcss -i ./static/css/input.css -o ./static/output.css --config ./tailwind.config.js"
   }
 }
