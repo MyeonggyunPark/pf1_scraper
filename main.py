@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask,request, render_template, redirect, send_file
 from scrapers.extractors import extract_bsj_jobs, extract_wwr_jobs, extract_ssd_jobs
 from scrapers.file import save_to_csv
@@ -91,4 +93,5 @@ def export():
 
 # Run the Flask app
 if __name__ == "__main__":
-    app.run(debug=True)
+
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
