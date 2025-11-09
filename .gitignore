@@ -6,14 +6,9 @@ __pycache__/
 build/
 dist/
 
-# Tailwind CSS build artifacts
-/static/output.css
-
 # Node modules
 node_modules/
 
-# Tailwind config
-tailwind.config.js
 
 # Virtual environment
 .venv/
@@ -30,3 +25,10 @@ uv.lock
 
 # Log files
 *.log
+
+# Byte-compiled / optimized / DLL files
+*.pyo
+*.pyd
+
+# CSV or temporary export files
+*.csv
