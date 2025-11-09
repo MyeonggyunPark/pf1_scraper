@@ -3,11 +3,174 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='output.css') }}">
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
   <title>DevJobScraper</title>
 </head>
-<body>
+<body class="bg-gray-900 flex flex-col min-h-screen">
+
+  <!-- Navigation Area -->
+  <header class="mt-5">
+    <nav class="container max-w-4xl mx-auto p-6 text-cstivory">
+      <h1 class="inline-block text-5xl font-bold border-b-3 border-cstYellow">DevJobScraper</h1>
+    </nav>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="container max-w-4xl mx-auto px-6 py-12 grow">
+
+    <!-- Search Form Section -->
+    <section class="flex justify-center bg-cstdarkGray text-cstivory rounded-xl">
+
+      <!-- Form for submitting job search keyword -->
+      <form action="/search" class="flex flex-col w-full p-3 gap-5" onsubmit="return showLoading();">
+        <label for="keywordbox" class="text-[26px] font-semibold">
+          What job do you want?
+        </label>
+        <input 
+          type="text" name="keyword" id="keywordbox" 
+          autocomplete="off" required placeholder="Write keyword please!"
+          class="px-4 py-4 border border-gray-500 rounded-md focus:outline-none focus:border-cstYellow focus:ring-1 focus:ring-cstYellow"  
+        >
+        
+        <!-- Submit Button -->
+        <button type="submit" class="bg-cstBlue text-lg text-cstivory font-semibold py-3 hover:text-cstYellow rounded-md cursor-pointer">Search</button>
+      </form>
+    </section>
+
+    <!-- Scraper-Card Section -->
+    <section class="mt-30">
+      <div class="grid grid-cols-3 gap-4">
+        
+        <!-- Scraper-Card for berlinstartupjobs.com -->
+        <article data-id="bsj" class="bg-cstdarkGray pb-3 rounded-lg overflow-hidden">
+
+          <!-- Logo -->
+          <img class="w-full h-52 p-3"
+          src="{{ url_for('static', filename='media/berlinstartupjobs_logo.png') }}"
+          alt="berlinstartupjobs_logo"
+          >
+
+          <!-- Conditional rendering of results or loading text -->
+          <div class="text-cstivory flex justify-center">
+            {% if results %}
+
+            <!-- Result view -->
+            <div class="mt-2 flex flex-col gap-3">
+              <div>
+                <span class="text-[22px] font-semibold mb-4 text-cstivory px-3 py-1 border-2 border-r-0 border-gray-500">Search Result</span>
+                {% for k, v in results.items() %}
+                {% if k == "bsj" %}
+                <span class="text-[22px] font-semibold px-3 py-1 border-2 border-gray-500">{{ v }}</span>
+              </div>
+
+              <!-- GET button -->
+              <a href="#" class="text-lg text-center font-semibold px-3 py-1 rounded-md bg-cstBlue hover:text-cstYellow">GET</a>
+              {% endif %}
+              {% endfor %}
+            </div>
+            {% else %}
+
+            <!-- Loading animation shown before result -->
+            <span id="searchtext" class="mt-1 text-cstivory font-semibold text-lg">Go Search!</span>
+            <div id="loading" class="hidden mt-1 text-cstivory font-semibold text-lg space-x-1">
+              <span>Start Searching</span>
+              <i class="fas fa-spinner fa-spin"></i>
+            </div>
+            {% endif %}
+          </div>
+        </article>
+
+        <!-- Scraper-Card for weworkremotely.com -->
+        <article data-id="wwr" class="bg-cstdarkGray pb-3 rounded-lg overflow-hidden">
+
+          <!-- Logo -->
+          <img class="w-full h-52 p-3" 
+          src="{{ url_for('static', filename='media/weworkremotely_logo.png') }}"
+          alt="weworkremotely_logo"
+          >
+
+          <!-- Conditional rendering of results or loading text -->
+          <div class="text-cstivory flex justify-center">
+            {% if results %}
+
+            <!-- Result view -->
+            <div class="mt-2 flex flex-col gap-3">
+              <div>
+                <span class="text-[22px] font-semibold mb-4 text-cstivory px-3 py-1 border-2 border-r-0 border-gray-500">Search Result</span>
+                {% for k, v in results.items() %}
+                {% if k == "wwr" %}
+                <span class="text-[22px] font-semibold px-3 py-1 border-2 border-gray-500">{{ v }}</span>
+              </div>
+
+              <!-- GET button -->
+              <a href="#" class="text-lg text-center font-semibold px-3 py-1 rounded-md bg-cstBlue hover:text-cstYellow">GET</a>
+              {% endif %}
+              {% endfor %}
+            </div>
+            {% else %}
+
+            <!-- Loading animation shown before result -->
+            <span id="searchtext" class="mt-1 text-cstivory font-semibold text-lg">Go Search!</span>
+            <div id="loading" class="hidden mt-1 text-cstivory font-semibold text-lg space-x-1">
+              <span>Start Searching</span>
+              <i class="fas fa-spinner fa-spin"></i>
+            </div>
+            {% endif %}
+          </div>
+        </article>
+        
+        <!-- Scraper-Card for stepstone.de -->
+        <article data-id="ssd" class="bg-cstdarkGray pb-3 rounded-lg overflow-hidden">
+
+          <!-- Logo -->
+          <img class="w-full h-52 p-3" 
+              src="{{ url_for('static', filename='media/stepstone_logo.png') }}"
+              alt="stepstone_logo_logo"
+          >
+
+          <!-- Conditional rendering of results or loading text -->
+          <div class="text-cstivory flex justify-center">
+            {% if results %}
+
+            <!-- Result view -->
+            <div class="mt-2 flex flex-col gap-3">
+              <div>
+                <span class="text-[22px] font-semibold mb-4 text-cstivory px-3 py-1 border-2 border-r-0 border-gray-500">Search Result</span>
+                {% for k, v in results.items() %}
+                {% if k == "ssd" %}
+                <span class="text-[22px] font-semibold px-3 py-1 border-2 border-gray-500">{{ v }}</span>
+              </div>
+
+              <!-- GET button -->
+              <a href="#" class="text-lg text-center font-semibold px-3 py-1 rounded-md bg-cstBlue hover:text-cstYellow">GET</a>
+              {% endif %}
+              {% endfor %}
+            </div>
+            {% else %}
+
+            <!-- Loading animation shown before result -->
+            <span id="searchtext" class="mt-1 text-cstivory font-semibold text-lg">Go Search!</span>
+            <div id="loading" class="hidden mt-1 text-cstivory font-semibold text-lg space-x-1">
+              <span>Start Searching</span>
+              <i class="fas fa-spinner fa-spin"></i>
+            </div>
+            {% endif %}
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
   
-  <h1 class=" text-6xl text-yellow-300">Hello! Flask!</h1>
+  <!-- Footer Area -->
+  <footer class="container max-w-4xl mx-auto text-center bg-cstdarkGray py-4 text-cstivory mt-16">
+    <div>
+      <p>&copy; 2025 Myeonggyun Park. All rights reserved.</p>
+    </div>
+  </footer>
+  
 </body>
 </html>
