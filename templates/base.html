@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='output.css') }}">
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <title>DevJobScraper</title>
+</head>
+<body class="bg-gray-900 flex flex-col min-h-screen">
+
+  <!-- Navigation Area -->
+  <header class="mt-5">
+    <nav class="container max-w-4xl mx-auto p-6 text-cstivory">
+      <h1 class="inline-block text-5xl font-bold border-b-3 border-cstYellow">DevJobScraper</h1>
+    </nav>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="container max-w-4xl mx-auto px-6 py-12 grow">
+    {% block content %}
+
+    {% endblock %}
+  </main>
+  
+  <!-- Footer Area -->
+  <footer class="container max-w-4xl mx-auto text-center bg-cstdarkGray py-4 text-cstivory mt-16">
+    <div>
+      <p>&copy; 2025 Myeonggyun Park. All rights reserved.</p>
+    </div>
+  </footer>
+  
+</body>
+</html>
