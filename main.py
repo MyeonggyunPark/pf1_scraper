@@ -1,6 +1,6 @@
-from flask import Flask,request, render_template, redirect
+from flask import Flask,request, render_template, redirect, send_file
 from scrapers.extractors import extract_bsj_jobs, extract_wwr_jobs, extract_ssd_jobs
-
+from scrapers.file import save_to_csv
 
 # Initialize the Flask app
 app = Flask(__name__)
@@ -68,6 +68,26 @@ def result():
 
     return render_template("result.html", jobs=jobs, site=site, keyword=keyword)
 
+
+# Route to export scraped job data as a CSV file
+@app.route("/export")
+def export():
+    keyword = request.args.get("keyword")
+    site = request.args.get("site")
+
+    if keyword is None:
+        return redirect("/")
+
+    if keyword not in db:
+        return redirect(f"/search?keyword={keyword}")
+
+    # Get the job data and create a filename for the CSV export
+    jobs = db[keyword][site]
+    filename = f"{site.upper()}_{keyword}.csv"
+
+    # Save the job data to a CSV file and send the file to the user for download
+    save_to_csv(filename, jobs)
+    return send_file(filename, as_attachment=True)
 
 # Run the Flask app
 if __name__ == "__main__":
