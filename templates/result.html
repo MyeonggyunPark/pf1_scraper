@@ -2,22 +2,37 @@
 
 {% block content %}
 
+<!-- Displaying search results Section -->
 <section class="text-cstivory">
 
-  <h3 class="text-2xl mb-7">
-    Search results for "{{ keyword }}" on 
-    {% if site == "bsj" %}
-      <span>berlinstartupjobs.com</span>
-    {% elif site == "wwr" %}
-      <span>weworkremotely.com</span>
-    {% else %}
-      <span>stepstone.de</span>
-    {% endif %}
-  </h3>
+  <!-- keyword + site info -->
+  <div class="mb-7 flex justify-around">
+    <h3 class="text-2xl">
+      Search results for "{{ keyword }}" on 
+      {% if site == "bsj" %}
+        <span>berlinstartupjobs.com</span>
+      {% elif site == "wwr" %}
+        <span>weworkremotely.com</span>
+      {% else %}
+        <span>stepstone.de</span>
+      {% endif %}
+    </h3>
+    
+    <!-- CSV export button -->
+    <a 
+      href="{{ url_for('export') }}?keyword={{ keyword }}&site={{ site }}"
+      class="inline-box px-4 py-2 bg-cstBlue text-cstivory rounded-md hover:text-cstYellow font-semibold"
+    >
+      <i class="fas fa-file-csv"></i> 
+      <span>CSV</span>
+    </a>    
+  </div>
 
-    <!-- 결과 테이블 -->
+  <!-- Job results table -->
   <div class="overflow-x-auto">
     <table class="min-w-full table-auto border-collapse border border-gray-600">
+
+      <!-- Table header -->
       <thead class="bg-cstdarkGray text-lg">
         <tr>
           <th class="border border-gray-600 px-4 py-2 text-left">Position</th>
@@ -26,6 +41,8 @@
           <th class="border border-gray-600 px-4 py-2 text-left">Link</th>
         </tr>
       </thead>
+
+      <!-- Table body -->
       <tbody class="text-md divide-y divide-gray-700">
         {% for job in jobs %}
         <tr class="hover:bg-gray-800 transition-colors">
