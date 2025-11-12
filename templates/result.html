@@ -3,7 +3,7 @@
 {% block content %}
 
 <!-- Displaying search results Section -->
-<section class="text-cstivory">
+<section class="text-cstivory hidden md:block">
 
   <!-- keyword + site info -->
   <div class="mb-7 flex justify-between">
@@ -70,6 +70,73 @@
       </tbody>
     </table>
   </div>
+
+</section>
+
+
+<!-- Mobile Displaying search results Section -->
+<section class="md:hidden">
+  
+  <div class="flex flex-col items-center gap-3">
+
+    <!-- Mobile keyword -->
+    <div class="text-cstivory text-2xl flex justify-center">
+      <h3 class="border-2 border-gray-500 rounded-md px-25 py-2 flex items-center">{{ keyword }}</h3>
+    </div>
+    
+    <div class="flex justify-between gap-10">
+      <a href="{{ url_for('home') }}" 
+        class="inline-block text-base px-3 py-2 bg-cstdarkGray border-2 border-gray-500 text-cstivory rounded-md font-semibold">
+        New Search
+      </a>
+      <!-- Mobile Back to Home Button + CSV export button -->
+      <a 
+        href="{{ url_for('export') }}?keyword={{ keyword }}&site={{ site }}"
+        class="inline-block text-base px-3 py-2 bg-cstBlue border-2 border-gray-500 text-cstivory rounded-md font-semibold"
+      >
+        <i class="fas fa-file-csv"></i> 
+        <span>CSV</span>
+      </a> 
+
+    </div>
+  </div>
+  
+  <!-- Mobile Site toggle button  -->
+  <div class="text-cstivory flex justify-center mt-8">
+    <ul class="text-xl font-semibold flex gap-6 uppercase">
+      <li class="w-25 text-center py-2 border-2 border-gray-500 rounded-md {% if site == 'bsj' %} bg-cstBlue {% else %} text-gray-500 {% endif %}">
+        <a href="{{ url_for('result') }}?keyword={{ keyword }}&site=bsj">bsj</a>
+      </li>
+      <li class="w-25 text-center py-2 border-2 border-gray-500 rounded-md {% if site == 'wwr' %} bg-cstBlue font-semibold {% else %} text-gray-500 {% endif %}">
+        <a href="{{ url_for('result') }}?keyword={{ keyword }}&site=wwr">wwr</a>
+      </li>
+      <li class="w-25 text-center py-2 border-2 border-gray-500 rounded-md {% if site == 'ssd' %} bg-cstBlue font-semibold {% else %} text-gray-500 {% endif %}">
+        <a href="{{ url_for('result') }}?keyword={{ keyword }}&site=ssd">ssd</a>
+      </li>
+    </ul>
+  </div>
+  
+  <!-- Mobile Job results Card -->
+  <div class="mt-10">
+    {% for job in jobs %}
+      <a 
+        href="{{ job.job_link }}" 
+        target="_blank"
+        class="block m-4 p-4 rounded-md border-2 border-gray-500 bg-cstdarkGray"
+      >
+        <h4 class="text-lg font-semibold text-cstivory mb-2">
+          {{ job.job_title }}
+        </h4>
+        <p class="text-cstBlue font-semibold">
+          {{ job.company_name }}
+        </p>
+        <p class="text-sm text-gray-400">
+          {{ job.company_location }}
+        </p>
+      </a>
+    {% endfor %}
+  </div>
+
 
 </section>
 
