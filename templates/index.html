@@ -6,7 +6,7 @@
 
   <!-- Form for submitting job search keyword -->
   <form action="/search" class="flex flex-col w-full p-3 gap-5" onsubmit="return showLoading();">
-    <label for="keywordbox" class="text-[26px] font-semibold">
+    <label for="keywordbox" class="text-[22px] md:text-[26px] font-semibold">
       What job do you want?
     </label>
     <input 
@@ -21,8 +21,8 @@
 </section>
 
 <!-- Scraper-Card Section -->
-<section class="mt-30">
-  <div class="grid grid-cols-3 gap-4">
+<section class="mt-30 hidden md:block">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     
     <!-- Scraper-Card for berlinstartupjobs.com -->
     <article data-id="bsj" class="bg-cstdarkGray pb-3 rounded-lg overflow-hidden">
@@ -155,5 +155,57 @@
 
   </div>
 </section>
+
+<!-- Mobile Scraper-Card Section -->
+<section class="md:hidden mt-10 flex flex-col p-3 gap-8">
+
+  <!-- Mobile Conditional rendering of results or loading text -->
+  <article class="text-xl flex justify-center text-cstivory font-semibold">
+    {% if results %}
+      <div class="grid grid-cols-2 gap-5">
+        <span class="flex items-center">Complete!</span>
+
+        <!-- Mobile GET button -->
+        <a 
+          href="{{ url_for('result') }}?site=bsj&keyword={{ request.args.get('keyword') }}" 
+          class="text-lg text-center font-semibold px-3 py-1 rounded-md bg-cstdarkGray border-2 border-gray-500">
+          GET
+        </a>
+      </div>
+    {% else %}
+      <!-- Mobile Loading animation shown before result -->
+      <span id="searchtext" class="">Go Search!</span>
+      <div id="loading" class="hidden space-x-1">
+        <span>Start Searching</span>
+        <i class="fas fa-spinner fa-spin"></i>
+      </div>
+    {% endif %}
+  </article>
+
+  <!--Mobile Scraper-Card for berlinstartupjobs.com -->
+  <article class="p-3 text-2xl border-2 border-gray-500 bg-linear-to-b from-cstivory to-orange-500 rounded-xl flex justify-center">
+    <div class="font-semibold uppercase space-x-1">
+      <span class="text-black">Berlin</span>
+      <span class="text-cstivory">startupjobs</span>
+    </div>
+  </article>
+
+  <!-- Mobile Scraper-Card for weworkremotely.com -->
+  <article class="p-3 text-2xl border-2 border-gray-500 bg-black rounded-xl">
+    <div class="relative flex justify-center">
+      <span class="text-cstivory font-semibold uppercase">wwr</span>
+      <span class="absolute top-1 right-30 size-2.5 bg-red-600 rounded-full"></span>
+    </div>
+  </article>
+  
+  <!-- Mobile Scraper-Card for stepstone.de -->
+  <article class="p-3 text-2xl border-2 border-gray-500 bg-linear-to-br from-sky-200 via-white to-pink-200 rounded-xl">
+    <div class="flex justify-center items-center space-x-2 font-semibold">
+      <span class="text-blue-900">Stepstone</span>
+    </div>
+  </article>
+
+</section>
+
 
 {% endblock %}
